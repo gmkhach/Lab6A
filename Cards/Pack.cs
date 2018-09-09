@@ -9,9 +9,9 @@ namespace Cards
         private PlayingCard[,] cardPack;
         private Random randomCardSelector = new Random();
 
+        // initialize the pack of cards
         public Pack()
         {
-            // initialize the pack of cards
             this.cardPack = new PlayingCard[NumSuits, CardsPerSuit];
             for (Suit suit = Suit.Clubs; suit <= Suit.Spades; suit++)
             {
@@ -22,9 +22,9 @@ namespace Cards
             }
         }
 
+        // pick a random card, remove it from the pack, and return it
         public PlayingCard DealCardFromPack()
         {
-            // pick a random card, remove it from the pack, and return it
             Suit suit = (Suit)randomCardSelector.Next(NumSuits);
             while (this.IsSuitEmpty(suit))
             {
@@ -40,16 +40,23 @@ namespace Cards
             return card;
         }
 
+        // return true if there are no more cards available in this suit
         private bool IsSuitEmpty(Suit suit)
         {
-            // TODO: return true if there are no more cards available in this suit
-            throw new NotImplementedException("IsSuitEmpty - TBD");
+            bool result = true;
+            for (Value value = Value.Two; value <= Value.Ace; value++)
+            {
+                if (!IsCardAlreadyDealt(suit, value))
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
         }
 
-        private bool IsCardAlreadyDealt(Suit suit, Value value)
-        {
-            // TODO: return true if this card has already been dealt   
-            throw new NotImplementedException("IsCardAlreadyDealt - TBD");
-        }
+        // return true if this card has already been dealt   
+        private bool IsCardAlreadyDealt(Suit suit, Value value) => (this.cardPack[(int)suit, (int)value] == null);
+
     }
 }
